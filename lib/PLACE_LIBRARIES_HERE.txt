@@ -1,0 +1,14 @@
+http://grinninglizard.com/tinyxml2
+http://www.foobar2000.org/SDK
+
+Folder structure should look like this:
+	- foobar2000_sdk
+		- foobar2000
+			- foobar2000_component_client
+			- helpers
+			- SDK
+			- shared
+		- pfc
+	- tinyxml2
+		- tinyxml2 project files
+	- This readme
