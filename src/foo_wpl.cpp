@@ -3,7 +3,7 @@
 #include "helper.h"
 
 #define NAME "WPL Playlist support"
-#define VERSION "1.0"
+#define VERSION "1.0.1"
 DECLARE_COMPONENT_VERSION
 (
 	NAME, VERSION,
@@ -56,6 +56,7 @@ void wpl::open(const char *p_path, const service_ptr_t<file> &p_file, playlist_l
 	catch(...)
 	{
 		file_list.erase(p_path);
+		console::printf(CONSOLE_HEADER "error while opening playlist");
 		throw;
 	}
 

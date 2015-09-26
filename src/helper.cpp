@@ -337,7 +337,7 @@ void parse(const char *p_path, const service_ptr_t<file> &p_file, playlist_loade
 	TrackQueue track_queue;
 	TrackInfoCache track_cache;
 
-	for(auto *xml_media = xml_seq->FirstChildElement("media"); xml_media != nullptr; xml_media = xml_seq->NextSiblingElement("media"))
+	for(auto *xml_media = xml_seq->FirstChildElement("media"); xml_media != nullptr; xml_media = xml_media->NextSiblingElement("media"))
 	{
 		// Check if the user cancelled the operation
 		if(p_abort.is_aborting())
