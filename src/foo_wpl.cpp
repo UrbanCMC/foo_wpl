@@ -3,7 +3,7 @@
 #include "helper.h"
 
 #define NAME "WPL Playlist support"
-#define VERSION "1.0.1"
+#define VERSION "1.0.2"
 DECLARE_COMPONENT_VERSION
 (
 	NAME, VERSION,
@@ -15,7 +15,10 @@ DECLARE_COMPONENT_VERSION
 	"This plugin is released under the BSD 3-Clause license\n"
 	"\n"
 	"This plugin is statically linked with the open source TinyXML-2 library:\n"
-	"http://www.grinninglizard.com/tinyxml2"
+	" http://www.grinninglizard.com/tinyxml2 \n"
+	"\n"
+	"Parts of the helper classes were taken and modified from foo_xspf_1:\n"
+	"(https://github.com/Chocobo1/foo_xspf_1) by Mike Tzou."
 );
 
 bool wpl::can_write()
