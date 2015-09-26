@@ -33,38 +33,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 typedef metadb_handle_list DbList;
 
 template<class T>
-class XmlBaseHelper
-{
-public:
-	void set(const t_size num, const char *val)
-	{
-		if(num >= XMLBASE_SIZE)
-		{
-			console::printf(CONSOLE_HEADER"XmlBaseHelper::set() num error: %u", num);
-			return;
-		}
-
-		base[num] = (val == nullptr) ? "" : val;
-		return;
-	}
-
-	T get() const
-	{
-		T out;
-		for(const auto &i : base)
-		{
-			out += i;
-		}
-		return out;  // RVO kicks in
-	}
-
-private:
-	static const t_size XMLBASE_SIZE = 4;  // smil, body, seq, media
-	T base[XMLBASE_SIZE];
-};
-typedef XmlBaseHelper<pfc::string8> XmlBaseImpl;
-
-template<class T>
 class LruCache
 {
 	struct CacheData
