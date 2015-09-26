@@ -1,13 +1,18 @@
-// foo_wpl.h
-
 #pragma once
 
-using namespace System;
+class wpl : public playlist_loader
+{
+	public:
+		bool can_write();
+		const char *get_extension();
+		bool is_associatable();
+		bool is_our_content_type(const char *p_content_type);
 
-namespace foo_wpl {
+		void open(const char *p_path, const service_ptr_t<file> &p_file, playlist_loader_callback::ptr p_callback, abort_callback &p_abort);
 
-	public ref class Class1
-	{
-		// TODO: Add your methods for this class here.
-	};
-}
+	private:
+		static std::set<std::string> file_list;
+};
+std::set<std::string> wpl::file_list;
+
+playlist_loader_factory_t<wpl> wpl_main;
