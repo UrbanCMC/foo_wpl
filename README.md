@@ -5,6 +5,9 @@ WPL is an XML-based playlist format used by applications like the Windows Media 
 
 By using this plugin it is possible to play music in Foobar2000 using Cortana with Windows 10.
 
+## Download
+The latest binary version can always be found [here] (https://github.com/UrbanCMC/foo_wpl/releases)
+
 ## License
 See the [LICENSE] (https://github.com/UrbanCMC/foo_wpl/blob/master/LICENSE) file.
 
