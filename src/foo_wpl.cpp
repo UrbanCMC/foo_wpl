@@ -1,11 +1,10 @@
 #include "stdafx.h"
-
 #include "foo_wpl.h"
-#include "wpl_parser.h"
+#include "helper.h"
 
 #define NAME "WPL Playlist support"
 #define VERSION "1.0"
-#define DECLARE_COMPONENT_VERSION
+DECLARE_COMPONENT_VERSION
 (
 	NAME, VERSION,
 	NAME "\n"
@@ -61,4 +60,9 @@ void wpl::open(const char *p_path, const service_ptr_t<file> &p_file, playlist_l
 	}
 
 	file_list.erase(p_path);
+}
+// Method not yet implemented.
+void wpl::write(const char* p_path, const service_ptr_t<file>& p_file, metadb_handle_list_cref p_data, abort_callback& p_abort)
+{
+	return;
 }
