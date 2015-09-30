@@ -10,5 +10,5 @@
 #include "../lib/tinyxml2/tinyxml2.h"
 
 #define PLUGIN_NAME "WPL Playlist support"
-#define PLUGIN_VERSION "1.0.2"
+#define PLUGIN_VERSION "1.1"
 #define CONSOLE_HEADER "foo_wpl: "
