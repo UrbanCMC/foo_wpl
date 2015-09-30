@@ -361,6 +361,70 @@ void parse(const char *p_path, const service_ptr_t<file> &p_file, playlist_loade
 	track_queue.resolve(p_callback);
 }
 
+// Writes the tracks specified by p_data to the specified file system location
+void write_playlist(const char *p_path, const service_ptr_t<file> &p_file, metadb_handle_list_cref p_data, abort_callback &p_abort)
+{
+	//Create the xml document where we will write the playlist
+	tinyxml2::XMLDocument xml_doc;
+
+	//Add wpl declaration
+	auto xml_dec = xml_doc.NewDeclaration("wpl version=\"1.0\"");
+	xml_doc.InsertEndChild(xml_dec);
+
+	//Add smil tag
+	auto xml_smil = xmlAddElement(&xml_doc, &xml_doc, "smil");
+
+	//Add head tag
+	auto xml_head = xmlAddElement(&xml_doc, xml_smil, "head");
+
+	//Add generator info
+	auto xml_meta_generator = xmlAddElement(&xml_doc, xml_head, "meta");
+	xmlAddAttribute(xml_meta_generator, "name", "Generator");
+	xmlAddAttribute(xml_meta_generator, "content", "Foobar2000 WPL plugin -- " PLUGIN_VERSION);
+
+	//Add body tag
+	auto xml_body = xmlAddElement(&xml_doc, xml_smil, "body");
+
+	//Add seq tag
+	auto xml_seq = xmlAddElement(&xml_doc, xml_body, "seq");
+
+	//Add all tracks
+	for(t_size i = 0, max = p_data.get_size(); i < max; i++)
+	{
+		if(p_abort.is_aborting())
+		{
+			return;
+		}
+
+		//get track
+		const auto track = p_data.get_item(i);
+
+		//Add media element
+		auto xml_media = xmlAddElement(&xml_doc, xml_seq, "media");
+
+#ifdef DEBUG
+		console::printf(CONSOLE_HEADER "Adding %s to playlist file", track->get_path());
+#endif
+
+		//Add track location attribute
+		xmlAddAttribute(xml_media, "src", track->get_path());
+	}
+
+	//Add xml document to the xml_printer
+	tinyxml2::XMLPrinter xml_printer(nullptr, false);
+	xml_doc.Print(&xml_printer);
+
+	try
+	{
+		//Write xml_printer content to disk
+		p_file->write_string_raw(xml_printer.CStr(), p_abort);
+	}
+	catch(...)
+	{
+		console::printf(CONSOLE_HEADER "write_string_raw exception");
+	}
+}
+
 // Creates an xml document from the specified character string.
 // If an error occurs, an io_data-exception is thrown.
 void xmlCreateDocument(tinyxml2::XMLDocument *xml_doc, const char *f)

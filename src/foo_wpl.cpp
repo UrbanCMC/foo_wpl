@@ -22,7 +22,7 @@ DECLARE_COMPONENT_VERSION
 // Returns whether this plugin can write playlists to the file system
 bool wpl::can_write()
 {
-	return false;
+	return true;
 }
 
 // Returns the file extension that is handled by this plugin
@@ -68,8 +68,9 @@ void wpl::open(const char *p_path, const service_ptr_t<file> &p_file, playlist_l
 
 	file_list.erase(p_path);
 }
-// Method not yet implemented.
+
+// Writes the tracks specified by p_data to the specified file system location
 void wpl::write(const char* p_path, const service_ptr_t<file>& p_file, metadb_handle_list_cref p_data, abort_callback& p_abort)
 {
-	return;
+	write_playlist(p_path, p_file, p_data, p_abort);
 }
