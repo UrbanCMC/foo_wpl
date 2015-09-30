@@ -2,12 +2,10 @@
 #include "foo_wpl.h"
 #include "helper.h"
 
-#define NAME "WPL Playlist support"
-#define VERSION "1.0.2"
 DECLARE_COMPONENT_VERSION
 (
-	NAME, VERSION,
-	NAME "\n"
+	PLUGIN_NAME, PLUGIN_VERSION,
+	PLUGIN_NAME "\n"
 	"Compiled: " __DATE__ "\n"
 	"Author: Alexander Gyimesi\n"
 	"\n"
