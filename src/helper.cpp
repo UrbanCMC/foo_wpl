@@ -301,8 +301,8 @@ class TrackInfoCache
 void xmlCreateDocument(tinyxml2::XMLDocument *xml_doc, const char *f);
 void xmlAddAttribute(tinyxml2::XMLElement *xml_element, const char *attribute_name, const char *attribute_value);
 const char* xmlGetAttribute(const tinyxml2::XMLElement *xml_element, const char *attribute_name);
-tinyxml2::XMLElement* xmlAddElement(tinyxml2::XMLDocument *xml_doc, tinyxml2::XMLElement *xml_parent_element, const char *element_name);
-void xmlAddMeta(tinyxml2::XMLDocument *xml_doc, tinyxml2::XMLElement *xml_parent_element, const char *element_name, const char *element_text);
+tinyxml2::XMLElement* xmlAddElement(tinyxml2::XMLDocument *xml_doc, tinyxml2::XMLNode *xml_parent_node, const char *element_name);
+void xmlAddMeta(tinyxml2::XMLDocument *xml_doc, tinyxml2::XMLNode *xml_parent_node, const char *element_name, const char *element_text);
 const tinyxml2::XMLElement* xmlGetElement(const tinyxml2::XMLNode *xml_node, const char *element_name);
 
 
@@ -397,23 +397,23 @@ const char* xmlGetAttribute(const tinyxml2::XMLElement *xml_element, const char 
 
 // Adds a new xml element with the specified element_name to the xml_doc, as a child element of xml_parent_element.
 // Returns the xml element that was added.
-tinyxml2::XMLElement* xmlAddElement(tinyxml2::XMLDocument *xml_doc, tinyxml2::XMLElement *xml_parent_element, const char *element_name)
+tinyxml2::XMLElement* xmlAddElement(tinyxml2::XMLDocument *xml_doc, tinyxml2::XMLNode *xml_parent_node, const char *element_name)
 {
 	auto *xml_element = xml_doc->NewElement(element_name);
-	xml_parent_element->InsertEndChild(xml_element);
+	xml_parent_node->InsertEndChild(xml_element);
 
 	return xml_element;
 }
 
 // Adds a new xml element with the specified element_name and element_text to the xml_doc, as a child element of xml_parent_element.
-void xmlAddMeta(tinyxml2::XMLDocument *xml_doc, tinyxml2::XMLElement *xml_parent_element, const char *element_name, const char *element_text)
+void xmlAddMeta(tinyxml2::XMLDocument *xml_doc, tinyxml2::XMLNode *xml_parent_node, const char *element_name, const char *element_text)
 {
 	if(element_text == nullptr)
 	{
 		return;
 	}
 
-	auto *xml_element = xmlAddElement(xml_doc, xml_parent_element, element_name);
+	auto *xml_element = xmlAddElement(xml_doc, xml_parent_node, element_name);
 	xml_element->SetText(element_text);
 }
 

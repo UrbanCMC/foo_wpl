@@ -19,21 +19,25 @@ DECLARE_COMPONENT_VERSION
 	"(https://github.com/Chocobo1/foo_xspf_1) by Mike Tzou."
 );
 
+// Returns whether this plugin can write playlists to the file system
 bool wpl::can_write()
 {
 	return false;
 }
 
+// Returns the file extension that is handled by this plugin
 const char *wpl::get_extension()
 {
 	return "wpl";
 }
 
+// Returns whether foobar2000 can be set as the default application for the file extension handled by this plugin
 bool wpl::is_associatable()
 {
 	return true;
 }
 
+// Returns whether the specified content type is the one that is supported by this plugin
 bool wpl::is_our_content_type(const char *p_content_type)
 {
 	const char mime[] = "application/vnd.ms-wpl";
@@ -41,6 +45,7 @@ bool wpl::is_our_content_type(const char *p_content_type)
 	return strcmp(p_content_type, mime) == 0;
 }
 
+// Opens the specified playlist and adds all tracks found inside to the foobar2000 playlist
 void wpl::open(const char *p_path, const service_ptr_t<file> &p_file, playlist_loader_callback::ptr p_callback, abort_callback &p_abort)
 {
 	if(file_list.find(p_path) != file_list.cend())
