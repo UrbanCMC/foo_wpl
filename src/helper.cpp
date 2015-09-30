@@ -299,11 +299,14 @@ class TrackInfoCache
 
 //prototypes
 void xmlCreateDocument(tinyxml2::XMLDocument *xml_doc, const char *f);
+void xmlAddAttribute(tinyxml2::XMLElement *xml_element, const char *attribute_name, const char *attribute_value);
 const char* xmlGetAttribute(const tinyxml2::XMLElement *xml_element, const char *attribute_name);
+tinyxml2::XMLElement* xmlAddElement(tinyxml2::XMLDocument *xml_doc, tinyxml2::XMLElement *xml_parent_element, const char *element_name);
+void xmlAddMeta(tinyxml2::XMLDocument *xml_doc, tinyxml2::XMLElement *xml_parent_element, const char *element_name, const char *element_text);
 const tinyxml2::XMLElement* xmlGetElement(const tinyxml2::XMLNode *xml_node, const char *element_name);
 
 
-// Parses the specified p_path.
+// Parses the playlist specified by p_file and adds all tracks to the foobar2000 playlist.
 void parse(const char *p_path, const service_ptr_t<file> &p_file, playlist_loader_callback::ptr p_callback, abort_callback &p_abort)
 {
 	//load the file
@@ -371,6 +374,12 @@ void xmlCreateDocument(tinyxml2::XMLDocument *xml_doc, const char *f)
 	}
 }
 
+// Adds a new xml attribute with the specified attribute_name and attribute_value to the xml_element.
+void xmlAddAttribute(tinyxml2::XMLElement *xml_element, const char *attribute_name, const char *attribute_value)
+{
+	xml_element->SetAttribute(attribute_name, attribute_value);
+}
+
 // Returns the content of the specified attribute from an xml element as a character string.
 // If the specified attribute doesn't exist, an io_data-exception is thrown.
 const char* xmlGetAttribute(const tinyxml2::XMLElement *xml_element, const char *attribute_name)
@@ -384,6 +393,28 @@ const char* xmlGetAttribute(const tinyxml2::XMLElement *xml_element, const char 
 	}
 
 	return xml_attribute;
+}
+
+// Adds a new xml element with the specified element_name to the xml_doc, as a child element of xml_parent_element.
+// Returns the xml element that was added.
+tinyxml2::XMLElement* xmlAddElement(tinyxml2::XMLDocument *xml_doc, tinyxml2::XMLElement *xml_parent_element, const char *element_name)
+{
+	auto *xml_element = xml_doc->NewElement(element_name);
+	xml_parent_element->InsertEndChild(xml_element);
+
+	return xml_element;
+}
+
+// Adds a new xml element with the specified element_name and element_text to the xml_doc, as a child element of xml_parent_element.
+void xmlAddMeta(tinyxml2::XMLDocument *xml_doc, tinyxml2::XMLElement *xml_parent_element, const char *element_name, const char *element_text)
+{
+	if(element_text == nullptr)
+	{
+		return;
+	}
+
+	auto *xml_element = xmlAddElement(xml_doc, xml_parent_element, element_name);
+	xml_element->SetText(element_text);
 }
 
 // Returns the xml element with the specified name from the specified xml node.
