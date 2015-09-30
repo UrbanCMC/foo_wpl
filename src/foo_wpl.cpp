@@ -54,6 +54,9 @@ void wpl::open(const char *p_path, const service_ptr_t<file> &p_file, playlist_l
 	}
 	file_list.emplace(p_path);
 	
+	pfc::hires_timer timer;
+	timer.start();
+
 	try
 	{
 		p_callback->on_progress(p_path);
@@ -65,6 +68,8 @@ void wpl::open(const char *p_path, const service_ptr_t<file> &p_file, playlist_l
 		console::printf(CONSOLE_HEADER "error while opening playlist");
 		throw;
 	}
+	
+	console::printf(CONSOLE_HEADER "Parse time: %s; File: %s", timer.queryString().toString(), p_path);
 
 	file_list.erase(p_path);
 }
@@ -72,5 +77,10 @@ void wpl::open(const char *p_path, const service_ptr_t<file> &p_file, playlist_l
 // Writes the tracks specified by p_data to the specified file system location
 void wpl::write(const char* p_path, const service_ptr_t<file>& p_file, metadb_handle_list_cref p_data, abort_callback& p_abort)
 {
+	pfc::hires_timer timer;
+	timer.start();
+
 	write_playlist(p_path, p_file, p_data, p_abort);
+
+	console::printf(CONSOLE_HEADER "Write time: %s; File :%s", timer.queryString().toString(), p_path);
 }
