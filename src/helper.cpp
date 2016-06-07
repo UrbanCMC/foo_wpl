@@ -311,6 +311,9 @@ void parse(const char *p_path, const service_ptr_t<file> &p_file, playlist_loade
 {
 	//load the file
 	pfc::string8 input_file;
+	std::string playlistPath = p_path;
+
+	bool workingDirSet = false;
 
 	try
 	{
@@ -351,11 +354,36 @@ void parse(const char *p_path, const service_ptr_t<file> &p_file, playlist_loade
 		// Get the src attribute
 		const char *xml_src_attribute = xmlGetAttribute(xml_media, "src");
 
-#ifdef DEBUG
-		console::printf(CONSOLE_HEADER "Adding %s to queue", xml_src_attribute);
-#endif
+		std::string basePath;
+		std::string fullPath;
 
-		track_queue.add(xml_src_attribute);
+		// Check if the path is actually relative, in which case we build the full path from it.
+		if (PathIsRelativeA(xml_src_attribute))
+		{
+#ifdef DEBUG
+			console::printf(CONSOLE_HEADER "File path is relative, constructing full path for %s...", xml_src_attribute);
+#endif
+			if (!workingDirSet)
+			{
+				// Set the working directory to the path of the playlist, so that we correctly construct the absolute path
+				basePath = playlistPath.substr(7, playlistPath.find_last_of("\\") - 6);
+				workingDirSet = true;
+			}
+
+			fullPath = basePath + xml_src_attribute;
+
+#ifdef DEBUG
+			console::printf(CONSOLE_HEADER "Adding %s to queue", fullPath.c_str());
+#endif
+			track_queue.add(fullPath.c_str());
+		}
+		else
+		{
+#ifdef DEBUG
+			console::printf(CONSOLE_HEADER "Adding %s to queue", xml_src_attribute);
+#endif
+			track_queue.add(xml_src_attribute);
+		}
 	}
 
 	track_queue.resolve(p_callback);
