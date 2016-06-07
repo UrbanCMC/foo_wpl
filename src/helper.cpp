@@ -312,6 +312,7 @@ void parse(const char *p_path, const service_ptr_t<file> &p_file, playlist_loade
 	//load the file
 	pfc::string8 input_file;
 	std::string playlistPath = p_path;
+	std::string basePath;
 
 	bool workingDirSet = false;
 
@@ -354,7 +355,6 @@ void parse(const char *p_path, const service_ptr_t<file> &p_file, playlist_loade
 		// Get the src attribute
 		const char *xml_src_attribute = xmlGetAttribute(xml_media, "src");
 
-		std::string basePath;
 		std::string fullPath;
 
 		// Check if the path is actually relative, in which case we build the full path from it.
