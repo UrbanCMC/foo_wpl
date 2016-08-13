@@ -3,7 +3,8 @@ WPL playlist plugin for foobar2000 v1.3+
 
 WPL is an XML-based playlist format used by applications like the Windows Media Player.
 
-By using this plugin it is possible to play music in Foobar2000 using Cortana with Windows 10.
+## Windows 10 Cortana
+After an update to Cortana, it no longer uses .wpl playlists, but the MSWINDOWSMUSIC protocol. This means that it is no longer possible to use this plugin to play music from Cortana in foobar2000.
 
 ## Download
 The latest binary version can always be found [here] (https://github.com/UrbanCMC/foo_wpl/releases)
