@@ -305,7 +305,6 @@ tinyxml2::XMLElement* xmlAddElement(tinyxml2::XMLDocument *xml_doc, tinyxml2::XM
 void xmlAddMeta(tinyxml2::XMLDocument *xml_doc, tinyxml2::XMLNode *xml_parent_node, const char *element_name, const char *element_text);
 const tinyxml2::XMLElement* xmlGetElement(const tinyxml2::XMLNode *xml_node, const char *element_name);
 
-
 // Parses the playlist specified by p_file and adds all tracks to the foobar2000 playlist.
 void parse(const char *p_path, const service_ptr_t<file> &p_file, playlist_loader_callback::ptr p_callback, abort_callback &p_abort)
 {
@@ -358,7 +357,7 @@ void parse(const char *p_path, const service_ptr_t<file> &p_file, playlist_loade
 		std::string fullPath;
 
 		// Check if the path is actually relative, in which case we build the full path from it.
-		if (PathIsRelativeA(xml_src_attribute))
+		if (PathIsRelativeA(xml_src_attribute) && !PathIsURLA(xml_src_attribute))
 		{
 #ifdef DEBUG
 			console::printf(CONSOLE_HEADER "File path is relative, constructing full path for %s...", xml_src_attribute);
