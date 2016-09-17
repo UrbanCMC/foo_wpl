@@ -423,18 +423,24 @@ void write_playlist(const char *p_path, const service_ptr_t<file> &p_file, metad
 			return;
 		}
 
-		//get track
+		//current track element
 		const auto track = p_data.get_item(i);
 
 		//Add media element
 		auto xml_media = xmlAddElement(&xml_doc, xml_seq, "media");
 
+		// path to target file
+		auto trackPath = std::string(track->get_path());
+
+		// remove file:// from the path
+		trackPath = trackPath.substr(7);
+
 #ifdef DEBUG
-		console::printf(CONSOLE_HEADER "Adding %s to playlist file", track->get_path());
+		console::printf(CONSOLE_HEADER "Adding %s to playlist file", trackPath);
 #endif
 
 		//Add track location attribute
-		xmlAddAttribute(xml_media, "src", track->get_path());
+		xmlAddAttribute(xml_media, "src", trackPath.c_str());
 	}
 
 	//Add xml document to the xml_printer
